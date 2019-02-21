@@ -1,0 +1,31 @@
+{
+  "name": "overops_readme.io",
+  "version": "1.0.0",
+  "description": "Documentation for OverOps",
+  "main": "index.js",
+  "dependencies": {},
+  "devDependencies": {
+    "@babel/cli": "^7.2.3",
+    "@babel/core": "^7.2.2",
+    "@babel/plugin-proposal-class-properties": "^7.3.3",
+    "@babel/preset-env": "^7.3.1",
+    "@babel/register": "^7.0.0",
+    "gulp": "^4.0.0",
+    "gulp-replace": "^1.0.0",
+    "gulp-zip": "^4.2.0",
+    "gulp-clean": "^0.4.0",
+    "gulp-rename": "^1.4.0",
+    "gulp-run": "^1.7.1",
+    "jest": "^24.1.0",
+    "rdme": "^2.2.3"
+  },
+  "scripts": {
+    "start": "gulp watch",
+    "build": "gulp",
+    "sync": "gulp sync",
+    "deploy": "gulp  deploy",
+    "test": "jest"
+  },
+  "author": "",
+  "license": "ISC"
+}
