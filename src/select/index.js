@@ -34,13 +34,22 @@ if ($)
           if ($(".nice-select").length == 0) {
             $(document).off(".nice_select");
           }
+        } else if (method == "clear") {
+          this.each(function() {
+            var $select = $(this);
+            $select.val("none");
+            var $dropdown = $(this).next(".nice-select");
+
+            if ($dropdown.length) {
+              $dropdown.remove();
+              create_nice_select($select);
+            }
+          });
         } else {
           console.log('Method "' + method + '" does not exist.');
         }
         return this;
       }
-
-      // Hide native select
       this.hide();
 
       // Create custom markup

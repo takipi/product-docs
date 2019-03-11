@@ -6,7 +6,8 @@ import replace from "gulp-replace";
 import zip from "gulp-zip";
 import { convert } from "./scripts";
 
-const version = "v1.6.0";
+const version = "v1.7.0";
+const category = "Hybrid";
 
 export function cleanDist() {
   return gulp.src("./dist/*").pipe(clean());
@@ -14,7 +15,7 @@ export function cleanDist() {
 
 export function sync() {
   return run(
-    `rdme docs ./dist/${version} --key=kr75A8Fs252ye44LAB4SIbEZwTTH3ioB --version=${version}`
+    `rdme docs ./dist/${version}/${category} --key=TZB8AaZeTBF7atk13ni0i4C0LeodF9u1 --version=${version}`
   ).exec();
 }
 

@@ -19,6 +19,7 @@ class ImportComp extends BaseComp {
     if (extension == ".js") return this.html(`<script>${content}</script>`);
     if (extension == ".css") return this.html(`<style>${content}</style>`);
     if (extension == ".html") return this.html(content);
+    if (extension == ".md") return content;
 
     return this.html(``);
   };
