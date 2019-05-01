@@ -7,7 +7,7 @@ import zip from "gulp-zip";
 import { convert } from "./scripts";
 
 const version = "v1.7.0";
-const category = "Hybrid";
+const category = "OnPremise";
 
 export function cleanDist() {
   return gulp.src("./dist/*").pipe(clean());
