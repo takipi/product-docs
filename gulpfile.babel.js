@@ -7,7 +7,7 @@ import zip from "gulp-zip";
 import { convert } from "./scripts";
 
 const version = "v1.7.0";
-const category = "OnPremise";
+const category = "Installer";
 
 export function cleanDist() {
   return gulp.src("./dist/*").pipe(clean());
@@ -15,7 +15,7 @@ export function cleanDist() {
 
 export function sync() {
   return run(
-    `rdme docs ./dist/${version}/${category} --key=TZB8AaZeTBF7atk13ni0i4C0LeodF9u1 --version=${version}`
+    `rdme docs ./dist/${version}/${category} --key=pTnDF8nI5J3Sg3UneyMq0YbnSH4nEDV0 --version=${version}`
   ).exec();
 }
 
