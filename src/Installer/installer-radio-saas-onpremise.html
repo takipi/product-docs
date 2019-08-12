@@ -1,12 +1,14 @@
 <div class="remove-upper-margin"></div>
 <div class="remove-upper-margin"></div>
-<label class="radio-label">
-    <input type="radio" name="installer-type" value="saas" checked="checked"> 
-    <span class="checkmark"></span>
-    SaaS
-</label> 
-<label class="radio-label"> 
-    <input type="radio" name="installer-type" value="on-premise">
-    <span class="checkmark"></span>
-    on-Premise 
-</label>
+<div style="display: flex; flex-direction: column;">
+    <label class="radio-label">
+        <input id="saas" type="radio" class="installer-radio" name="installer-type" value="saas" checked="checked"> 
+        <span class="checkmark"></span>
+        SaaS
+    </label> 
+    <label class="radio-label"> 
+        <input id="onPremise" type="radio" class="installer-radio" name="installer-type" value="on-premise">
+        <span class="checkmark"></span>
+        on-Premise 
+    </label>
+</div>

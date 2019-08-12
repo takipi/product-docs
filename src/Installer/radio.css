@@ -1,5 +1,5 @@
 .radio-label {
-    display: block;
+    display: inline-block;
     position: relative;
     padding-left: 26px;
     margin-bottom: 12px;
@@ -26,17 +26,7 @@
     width: 16px;
     border-radius: 50%;
     border: 1px solid #999
-  }
-  
-  /* On mouse-over, add a grey background color */
-  .radio-label:hover input ~ .checkmark {
-    /* background-color: #ccc; */
-  }
-  
-  /* When the radio button is checked, add a blue background */
-  .radio-label input:checked ~ .checkmark {
-    /* background-color: #2196F3; */
-  }
+  } 
   
   /* Create the indicator (the dot/circle - hidden when not checked) */
   .checkmark:after {

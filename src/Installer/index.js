@@ -230,9 +230,9 @@ class SectionManager {
   }
 
   hideBetween(start, end, visibility) {
-        const init = document.getElementById(start);
-        if (init == null) {
-          return;
+    const init = document.getElementById(start);
+    if (init == null) {
+      return;
     }
 
     const startEl = init.parentElement;
@@ -322,13 +322,30 @@ if ($) {
       //config.root = event.target.value;
 
       if (value == "yes") {
-            window.SectionManager.hide(`linux-root-no`);
+        window.SectionManager.hide(`linux-root-no`);
         window.SectionManager.show(`linux-root-yes`);
+        window.SectionManager.show(`installer-saas`);
       }
 
       if (value == "no") {
-            window.SectionManager.hide(`linux-root-yes`);
+        window.SectionManager.hide(`linux-root-yes`);
         window.SectionManager.show(`linux-root-no`);
+      }
+    }
+
+    function installerSelector(event) {
+      const { value } = event.target;
+
+      //config.root = event.target.value;
+
+      if (value == "saas") {
+        window.SectionManager.hide(`installer-on-premise`);
+        window.SectionManager.show(`installer-saas`);
+      }
+
+      if (value == "on-premise") {
+        window.SectionManager.hide(`installer-saas`);
+        window.SectionManager.show(`installer-on-premise`);
       }
     }
 
@@ -347,12 +364,19 @@ if ($) {
     //   return;
     // }
 
+    function onGenerateCode() {
+      window.SectionManager.show(`code-snippet-area`);
+    }
+
     $(document).ready(function() {
-          console.log("ready SaaS Installs");
+      console.log("ready SaaS Installs");
 
       $("select").niceSelect();
       $("#os-select").on("change", osSelect);
-      $("#root-select").on("change", rootSelect);
+      $("#root-select").on("change", rootSelect); 
+      $('#saas').on("change", installerSelector)
+      $('#onPremise').on("change", installerSelector) 
+      $('#generateButton').on("click", onGenerateCode) 
 
       window.SectionManager.add("docker");
       window.SectionManager.add("kubernetes");
@@ -360,6 +384,9 @@ if ($) {
       window.SectionManager.add("windows-yes");
       window.SectionManager.add("linux-root-yes");
       window.SectionManager.add("linux-root-no");
+      window.SectionManager.add("installer-saas");
+      window.SectionManager.add("installer-on-premise");
+      window.SectionManager.add("code-snippet-area"); 
       window.SectionManager.hideAll();
     });
   })($);
