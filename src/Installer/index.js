@@ -1,3 +1,15 @@
+String.prototype.replaceAll = function(search, replacement) {
+  var target = this;
+  return target.replace(new RegExp(search, 'g'), replacement);
+};
+
+window.Installer = {
+  saasCodeWget: '',
+  saasCodeCurl: '',
+  onPremiseCode: ''
+}
+
+
 if ($) {
   (function($) {
         $.fn.niceSelect = function(method) {
@@ -337,13 +349,23 @@ if ($) {
       const { value } = event.target;
 
       //config.root = event.target.value;
+      const wgetCurlRadioContainer = document.getElementById('wgetCurlRadioContainer');
 
       if (value == "saas") {
+      
+        wgetCurlRadioContainer.style.display = 'flex'
         window.SectionManager.hide(`installer-on-premise`);
+        if (document.getElementById('Wget').checked) {
+          document.getElementById('codeSnippetArea').innerText = window.Installer.saasCodeWget;
+        } else {
+          document.getElementById('codeSnippetArea').innerText = window.Installer.saasCodeCurl;
+        }
         window.SectionManager.show(`installer-saas`);
       }
 
-      if (value == "on-premise") {
+      if (value == "on-premise") { 
+        wgetCurlRadioContainer.style.display = 'none'
+        document.getElementById('codeSnippetArea').innerText = window.Installer.onPremiseCode;
         window.SectionManager.hide(`installer-saas`);
         window.SectionManager.show(`installer-on-premise`);
       }
@@ -364,8 +386,73 @@ if ($) {
     //   return;
     // }
 
+    
+    const saasWget = 'wget -O - -o /dev/null http://get.takipi.com | sudo bash /dev/stdin -i --sk=<INSTALLATION_KEY> --listen_port=<COLLECTOR_PORT>';
+    const saasCurl = 'curl -sSL http://get.takipi.com | sudo bash /dev/stdin -i --sk=<INSTALLATION_KEY> --listen_port=<COLLECTOR_PORT>';
+    const onpremiseWget = `wget -O - -o /dev/null "http://<HOSTNAME>:8080/app/download?t=inst" | sudo bash /dev/stdin -i --sk=<INSTALLATION_KEY> --s3_url http://<HOSTNAME>:8080/service/png --installer_url "http://<HOSTNAME>:8080/app/download?t=tgz" --base_url http://<HOSTNAME>:8080 --listen_port=<PORT_TO_LISTEN_ON>`;
+
     function onGenerateCode() {
+      const analysisServerHostname = document.getElementById('analysisServerHostname').value;
+      const installationKey = document.getElementById('installationKey').value;
+      const installationKeySaas = document.getElementById('installationKeySaas').value;
+      let collectorPort = document.getElementById('collectorPort').value; 
+      let collectorPortSaas = document.getElementById('collectorPortSaas').value; 
+      
+  
+      const isSaaS = document.getElementById('saas').checked;
+      const isWget = document.getElementById('Wget').checked; 
+      let commandContent = '';
+      if (isSaaS) {
+        if (!collectorPortSaas) {
+          document.getElementById('collectorPortSaas').value = '6060'
+          collectorPortSaas = document.getElementById('collectorPortSaas').value;
+        }
+        if (isWget) {
+           commandContent = saasWget.replaceAll('<INSTALLATION_KEY>', installationKeySaas).replaceAll('<COLLECTOR_PORT>', collectorPortSaas);
+        window.Installer.saasCodeWget = commandContent
+        } else {
+           commandContent = saasCurl.replaceAll('<INSTALLATION_KEY>', installationKeySaas).replaceAll('<COLLECTOR_PORT>', collectorPortSaas);
+        window.Installer.saasCodeCurl = commandContent
+        }
+      } else {
+
+        if (!collectorPort) {
+          document.getElementById('collectorPort').value = '6060'
+          collectorPort = document.getElementById('collectorPort').value;
+        }
+  
+        commandContent = onpremiseWget.replaceAll('<INSTALLATION_KEY>', installationKey).replaceAll('<PORT_TO_LISTEN_ON>', collectorPort).replaceAll('<HOSTNAME>', analysisServerHostname);
+        window.Installer.onPremiseCode = commandContent
+      }
+
+      document.getElementById('codeSnippetArea').innerText = commandContent;
+
       window.SectionManager.show(`code-snippet-area`);
+    }
+
+
+    function copyToClipboard () {
+
+
+      var element = document.getElementById("codeSnippetArea")
+
+      const input = document.createElement('input');
+      input.style.opacity = 0;
+      input.id = 'tempInput';
+      document.body.appendChild(input);
+      input.value = element.innerText;
+
+      input.select();
+       
+        document.execCommand('copy'); 
+        document.body.removeChild(input)
+    }
+
+    function onWgetChange () {
+      document.getElementById('codeSnippetArea').innerText = window.Installer.saasCodeWget;
+    }
+    function onCurlChange () {
+      document.getElementById('codeSnippetArea').innerText = window.Installer.saasCodeCurl;
     }
 
     $(document).ready(function() {
@@ -375,8 +462,14 @@ if ($) {
       $("#os-select").on("change", osSelect);
       $("#root-select").on("change", rootSelect); 
       $('#saas').on("change", installerSelector)
+      $('#Wget').on("change", onWgetChange)
+      $('#cURL').on("change", onCurlChange)
       $('#onPremise').on("change", installerSelector) 
       $('#generateButton').on("click", onGenerateCode) 
+      $('#copyButton').on("click", copyToClipboard) 
+
+      document.getElementById('collectorPort').defaultValue = '6060';
+      document.getElementById('collectorPortSaas').defaultValue = '6060';
 
       window.SectionManager.add("docker");
       window.SectionManager.add("kubernetes");

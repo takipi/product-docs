@@ -193,6 +193,10 @@
   border: solid 1px #999999; 
 }
 
+.installer-input-input::placeholder {
+  opacity: .5;
+}
+
 .generate-command-button-container {
   display: flex;
   align-items: center;
@@ -219,6 +223,7 @@
   height: 32px;
   border-radius: 3px;
   border: solid 1px #4e13b1;
+  color: #4e13b1;
   background-color: #fff;
   margin-top: 8px;
 }
@@ -227,7 +232,7 @@
   min-height: 115px;
   padding: 8px 16px 13px;
   background-color: rgba(96, 105, 113, 0.1); 
-  font-family: Monaco;
+  font-family: Consolas, Monaco, Lucida Console, Courier New;
   font-size: 12px; 
   line-height: 2; 
   color: #555555;
