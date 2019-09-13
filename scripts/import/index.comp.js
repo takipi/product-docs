@@ -9,7 +9,7 @@ class ImportComp extends BaseComp {
 
   render = config => {
     const { path } = Object.assign(this.defaultConfig, config);
-
+    console.log(path)
     if (/^(https?:\/\/)/g.test(path))
       return this.html(`<script src="${path}"></script>`);
 

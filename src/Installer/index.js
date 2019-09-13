@@ -9,17 +9,7 @@ window.Installer = {
   onPremiseCode: ''
 }
 
-const ID = {
-  wgetCurlRadioContainer: 'wgetCurlRadioContainer',
-  Wget:                   'Wget',
-  codeSnippetArea:        'codeSnippetArea',
-  analysisServerHostname: 'analysisServerHostname',
-  installationKey:        'installationKey',
-  installationKeySaas:    'installationKeySaas',
-  collectorPort:          'collectorPort',
-  collectorPortSaas:      'collectorPortSaas',
-  saas:                   'saas',
-}
+
 
 
 if ($) {
@@ -28,6 +18,18 @@ if ($) {
           os: "",
       root: ""
     };
+
+    const ID = {
+      wgetCurlRadioContainer: 'wgetCurlRadioContainer',
+      Wget:                   'Wget',
+      codeSnippetArea:        'codeSnippetArea',
+      analysisServerHostname: 'analysisServerHostname',
+      installationKey:        'installationKey',
+      installationKeySaas:    'installationKeySaas',
+      collectorPort:          'collectorPort',
+      collectorPortSaas:      'collectorPortSaas',
+      saas:                   'saas',
+    }
 
     function osSelect(event) {
           window.SectionManager.hideAll();
@@ -110,6 +112,7 @@ if ($) {
     const codeSaasWget      = 'wget -O - -o /dev/null http://get.takipi.com | sudo bash /dev/stdin -i --sk=<INSTALLATION_KEY> --listen_port=<COLLECTOR_PORT>';
     const codeSaasCurl      = 'curl -sSL http://get.takipi.com | sudo bash /dev/stdin -i --sk=<INSTALLATION_KEY> --listen_port=<COLLECTOR_PORT>';
     const codeOnPremiseWget = `wget -O - -o /dev/null "http://<HOSTNAME>:8080/app/download?t=inst" | sudo bash /dev/stdin -i --sk=<INSTALLATION_KEY> --s3_url http://<HOSTNAME>:8080/service/png --installer_url "http://<HOSTNAME>:8080/app/download?t=tgz" --base_url http://<HOSTNAME>:8080 --listen_port=<PORT_TO_LISTEN_ON>`;
+    const codeOnPremiseWgetNoProtocol = `wget -O - -o /dev/null "<HOSTNAME>:8080/app/download?t=inst" | sudo bash /dev/stdin -i --sk=<INSTALLATION_KEY> --s3_url <HOSTNAME>:8080/service/png --installer_url "<HOSTNAME>:8080/app/download?t=tgz" --base_url <HOSTNAME>:8080 --listen_port=<PORT_TO_LISTEN_ON>`;
 
     function onGenerateCodeClick() {
       const inputAnalysisServerHostname = getElById(ID.analysisServerHostname);
@@ -153,11 +156,17 @@ if ($) {
         if (!inputCollectorPort.value) {
           inputCollectorPort.value = '6060';
         }
-  
-        commandContent = codeOnPremiseWget
-          .replaceAll('<INSTALLATION_KEY>', inputInstallationKey.value)
-          .replaceAll('<PORT_TO_LISTEN_ON>', inputCollectorPort.value)
-          .replaceAll('<HOSTNAME>', inputAnalysisServerHostname.value);
+        if (inputAnalysisServerHostname.value.search(new RegExp(/(^\w+:|^)\/\//)) !== -1) {
+          commandContent = codeOnPremiseWgetNoProtocol
+            .replaceAll('<INSTALLATION_KEY>', inputInstallationKey.value)
+            .replaceAll('<PORT_TO_LISTEN_ON>', inputCollectorPort.value)
+            .replaceAll('<HOSTNAME>', inputAnalysisServerHostname.value);
+        } else {
+          commandContent = codeOnPremiseWget
+            .replaceAll('<INSTALLATION_KEY>', inputInstallationKey.value)
+            .replaceAll('<PORT_TO_LISTEN_ON>', inputCollectorPort.value)
+            .replaceAll('<HOSTNAME>', inputAnalysisServerHostname.value);
+        }
         window.Installer.onPremiseCode = commandContent
       }
 

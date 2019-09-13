@@ -1,0 +1,75 @@
+.remove-upper-margin {
+  margin-top: -18px;
+}
+
+.installer-input-container {
+  display: flex;
+}
+
+.installer-input-label {
+  display: inline-flex;
+  align-items: center;
+  width: 114px; 
+  font-size: 14px;
+  height: 30px;  
+  color: #555555;
+  margin-bottom: 16px;
+}
+
+.input-long { 
+  flex: 1
+}
+
+.installer-input-input {
+  width: 200px;
+  height: 30px;
+  padding: 6px 8px;
+  border-radius: 3px;
+  border: solid 1px #999999; 
+}
+
+.installer-input-input::placeholder {
+  opacity: .5;
+}
+
+.generate-command-button-container {
+  display: flex;
+  align-items: center;
+}
+
+.generate-command-button-button {
+  display: inline-block;
+  cursor: pointer;
+  border: none;
+  width: 146px;
+  height: 33px;
+  border-radius: 3px;
+  background-color: #4e13b1;
+  margin-right: 28px; 
+  font-size: 14px;
+  font-weight: 500; 
+  color: #ffffff;
+}
+
+.copy-button-button {
+  display: inline-block;
+  cursor: pointer;
+  width: 117px;
+  height: 32px;
+  border-radius: 3px;
+  border: solid 1px #4e13b1;
+  color: #4e13b1;
+  background-color: #fff;
+  margin-top: 8px;
+}
+
+.code-snippet-area {
+  min-height: 115px;
+  padding: 8px 16px 13px;
+  background-color: rgba(96, 105, 113, 0.1); 
+  font-family: Consolas, Monaco, Lucida Console, Courier New;
+  font-size: 12px; 
+  line-height: 2; 
+  color: #555555;
+  margin-top: 50px;
+}
